@@ -14,7 +14,7 @@ const {
 
 router.post("/signup", signup);
 router.post("/login", login);
-router.get("/getAllUsers", verifyToken, getAllUsers);
+router.get("/getallusers", verifyToken, getAllUsers);
 router.get("/:userId", verifyToken, userData);
 router.patch("/update/:id", verifyToken, updateUser);
 router.delete("/:id",verifyToken, deleteUser);

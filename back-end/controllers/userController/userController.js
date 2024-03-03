@@ -52,11 +52,9 @@ const login = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const userId = req.user
-    const data = await User.get();
-    let usersList = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    usersList = usersList.filter(user => user.id !== userId)
-    res.status(200).json(usersList);
+    const userId = req.userId;
+    const users = await User.find({_id:{$ne:userId}});
+    res.status(200).json(users)
   } catch (error) {
     console.log(error);
     res.status(500).send("Error getting all users");

@@ -94,7 +94,7 @@ const UserSignup = () => {
                             {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>}
                         </div>
                         <button onClick={handleActorSignUp} className="text-white bg-indigo-600 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-800 rounded text-lg">Sign Up</button>
-                        <p class="text-xs text-gray-800 mt-3 text-center">Already registered? <Link to='/'>Login here</Link></p>
+                        <p className="text-xs text-gray-800 mt-3 text-center">Already registered? <Link to='/'>Login here</Link></p>
                     </div>
                 </div>
             </section>

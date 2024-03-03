@@ -11,9 +11,7 @@ const ChatWindow = () => {
       ];
   return (
     <div className="flex-grow">
-      {/* Chat window content goes here */}
       <div className="p-4 h-full bg-green-200 flex flex-col justify-between rounded-xl">
-        {/* Chat messages */}
         {messages.map((message, index) => (
           <div key={index} className="mb-4">
             <span className="font-semibold">{message.sender}: </span>
