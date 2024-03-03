@@ -18,6 +18,6 @@ router.get("/getallusers", verifyToken, getAllUsers);
 router.get("/:userId", verifyToken, userData);
 router.patch("/update/:id", verifyToken, updateUser);
 router.delete("/:id",verifyToken, deleteUser);
-router.post("/logout", logout)
+router.post("/logout", logout);
 
 module.exports = router;

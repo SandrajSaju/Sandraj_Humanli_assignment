@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import InputEmoji from 'react-input-emoji';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../app/axiosInstance';
@@ -6,7 +6,7 @@ import axiosInstance from '../app/axiosInstance';
 const ChatWindow = ({ messages, setMessages, id, findParticularChat, userId, members, userSocket }) => {
   const [text, setText] = useState('');
   const { userInfo } = useSelector((state) => state.userAuth);
-
+  const chatContainerRef = useRef(null);
   const [userReceivedMessage, setUserReceivedMessage] = useState(null);
   const [userSentMessage, setUserSentMessage] = useState(null);
 
@@ -59,17 +59,24 @@ const ChatWindow = ({ messages, setMessages, id, findParticularChat, userId, mem
     }
   }, [userSentMessage, userSocket]);
 
+  useEffect(() => {
+    if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+    }
+}, [messages]);
+
   return (
-    <div className="flex-grow">
-      <div className="p-4 h-full bg-green-200 flex flex-col justify-between rounded-xl">
+      <div className="p-4 h-full bg-green-200 flex flex-col justify-between rounded-xl" style={{ height: '90vh' }}>
+        <div style={{ height: '75vh', overflowY: 'auto' }} ref={chatContainerRef}>
         {messages.map((message, index) => (
           <div key={index} className={message.senderId === userInfo?._id ? 'text-end m-3' : 'text-start m-3'}>
-          <div className={message.senderId === userInfo?._id ? 'bg-red-500 inline-block text-white rounded-lg p-2' : 'bg-slate-500 inline-block text-white rounded-lg p-2'}>
+          <div className={message.senderId === userInfo?._id ? 'bg-red-500 inline-block text-white rounded-md p-2' : 'bg-slate-500 inline-block text-white rounded-md p-2'} style={{ maxWidth: '70%', overflowX: 'auto' }}>
               {message.text}
-              <div className="text-right text-xs text-white">{new Date(message.createdAt).toLocaleTimeString()}</div>
+              <div className="text-right text-xs text-white">{new Date(message.createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
           </div>
       </div>
         ))}
+        </div>
         <div className="flex flex-row items-center">
           <InputEmoji value={text} onChange={(value) => setText(value)} />
           <button className="bg-green-800 rounded-2xl font-bold text-white px-4 py-2 ml-2" onClick={() => addMessage(id)} >
@@ -77,7 +84,6 @@ const ChatWindow = ({ messages, setMessages, id, findParticularChat, userId, mem
           </button>
         </div>
       </div>
-    </div>
   );
 };
 

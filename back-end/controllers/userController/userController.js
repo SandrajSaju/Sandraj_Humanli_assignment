@@ -1,5 +1,6 @@
 const { generateToken } = require("../../utils/generateToken");
-const User = require('../../models/userModel')
+const User = require('../../models/userModel');
+const Chat = require('../../models/chatModel');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -52,9 +53,39 @@ const login = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
+    // const userId = req.userId;
+    // const chats = await Chat.find({ members: { $in: [userId] } }).sort({ updatedAt: -1 }).exec();
+    // const memberArray = [];
+    // if (chats) {
+    //   for (const chat of chats) {
+    //     for (const member of chat.members) {
+    //       if (member.toString() !== userId.toString()) {
+    //         const person = await User.findById(member);
+    //         memberArray.push(person);
+    //       }
+    //     }
+    //   }
+    // }
+    // const users = await User.find({_id:{$ne:userId}});
+    // const combinedUsers = memberArray.concat(users)
+    // res.status(200).json(combinedUsers)
     const userId = req.userId;
-    const users = await User.find({_id:{$ne:userId}});
-    res.status(200).json(users)
+    const chats = await Chat.find({ members: { $in: [userId] } }).sort({ updatedAt: -1 }).exec();
+    const memberArray = [];
+    if (chats) {
+      for (const chat of chats) {
+        for (const member of chat.members) {
+          if (member.toString() !== userId.toString() && !memberArray.some(m => m._id.toString() === member.toString())) {
+            const person = await User.findById(member);
+            memberArray.push(person);
+          }
+        }
+      }
+    }
+    const users = await User.find({ _id: { $ne: userId, $nin: memberArray.map(m => m._id) } });
+    const combinedUsers = memberArray.concat(users);
+
+    res.status(200).json(combinedUsers);
   } catch (error) {
     console.log(error);
     res.status(500).send("Error getting all users");

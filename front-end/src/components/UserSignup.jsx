@@ -64,7 +64,7 @@ const UserSignup = () => {
                 <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
                     <div className="lg:w-5/12 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
                         <h1 className="title-font font-medium text-3xl text-gray-900">Humanli AI</h1>
-                        <p className="leading-relaxed mt-4">For Aspiring Actors, our app is a dream come true. Delve into the rich history of the movies, analyze the latest casting calls, and follow your Directors and become a professional actor.</p>
+                        <p className="leading-relaxed mt-4">This is an Assignment for Humanli AI. This is a real-time Chat Application developed by Sandraj Saju</p>
                     </div>
                     <div className="lg:w-1/2 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
                         <h2 className="text-gray-900 text-xl font-bold text-center title-font mb-5">Sign Up</h2>

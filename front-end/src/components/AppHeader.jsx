@@ -11,10 +11,10 @@ const AppHeader = () => {
                     <span className="ml-2 text-xl text-white font-extrabold tracking-wider">HUMANLI . AI</span>
                 </div>
                 <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-                    <Link to='/home' className="mr-5 hover:text-gray-900">Home</Link>
-                    <Link to='/services' className="mr-5 hover:text-gray-900">Services</Link>
-                    <Link to='/about' className="mr-5 hover:text-gray-900">About Us</Link>
-                    <Link to='/contact' className="mr-5 hover:text-gray-900">Contact</Link>
+                    <Link to='/' className="mr-5 hover:text-gray-900">Home</Link>
+                    <Link to='/' className="mr-5 hover:text-gray-900">Services</Link>
+                    <Link to='/' className="mr-5 hover:text-gray-900">About Us</Link>
+                    <Link to='/' className="mr-5 hover:text-gray-900">Contact</Link>
                 </nav>  
             </div>
         </header>
