@@ -5,7 +5,8 @@ const cookieParser = require("cookie-parser");
 const userRoutes = require("./routes/userRoutes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes/chatRoutes");
 require("dotenv").config();
-const port = 3232;
+const connectDB = require('./config/connect')
+const PORT = process.env.PORT
 
 app.use(cors());
 
@@ -20,6 +21,11 @@ app.get("/", (req, res) => {
   res.send("Sever is Running");
 });
 
-app.listen(port, () =>
-  console.log(`Server is Running on http://localhost:${port}`)
-);
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  }).catch((e) => {
+    console.log('cannot connect to the network', e.message);
+  })

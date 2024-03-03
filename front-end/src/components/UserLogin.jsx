@@ -49,8 +49,8 @@ const UserLogin = () => {
         try {
             const { data } = await axiosInstance.post('/user/login', formData);
             console.log(data);
-            dispatch(setUserCredentials(data.data.id))
-            dispatch(setUserToken(data.data.token))
+            dispatch(setUserCredentials(data.user))
+            dispatch(setUserToken(data.userToken))
             setFormData({
                 email: '',
                 password: ''
@@ -84,8 +84,8 @@ const UserLogin = () => {
                             <input type="password" id="password" value={formData.password} onChange={handleInputChange} name="password" className={`w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out ${errors.password && 'border-red-500'}`} />
                             {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
                         </div>
-                        <button onClick={handleUserLogin} className="text-white bg-slate-500 border-0 py-2 px-8 focus:outline-none hover:bg-slate-700 rounded text-lg">Log In</button>
-                        <p class="text-sm text-gray-500 mt-3 text-center">Do not have an Account? <Link to='/signup' className='font-bold'>Sign Up here</Link></p>
+                        <button onClick={handleUserLogin} className="text-white bg-indigo-600 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-800 rounded text-lg">Log In</button>
+                        <p class="text-sm text-gray-800 mt-3 text-center">Do not have an Account? <Link to='/signup' className='font-bold'>Sign Up here</Link></p>
                     </div>
                 </div>
             </section>

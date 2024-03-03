@@ -1,15 +1,27 @@
-const { User } = require("../../database/config");
 const { generateToken } = require("../../utils/generateToken");
+const User = require('../../models/userModel')
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const signup = async (req, res) => {
   try {
-    const { name, email, phoneNumber, password } = req.body;
-    const user = await User.where("email", "==", email).get();
-    if (!user.empty) {
-      res.status(400).json({ message: "Email already exists" });
+    const { name, email, phoneNumber, password, confirmPassword } = req.body;
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: "Passwords doesnt match" });
+    }
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      const hashedPassword = await bcrypt.hash(password, saltRounds)
+      const newUser = new User({
+        name,
+        email,
+        phoneNumber,
+        password: hashedPassword
+      })
+      await newUser.save()
+      res.status(200).json({ newUser })
     } else {
-      const result = await User.add({ name, email, phoneNumber, password });
-      res.status(201).json({ message: "Signup successful", data: result.id });
+      return res.status(400).json({ error: "User Already Registered" });
     }
   } catch (error) {
     console.log(error);
@@ -20,21 +32,17 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const userData = await User.where("email", "==", email).get();
-    if (!userData.empty) {
-      const user = userData.docs[0].data();
-      if (user.password === password) {
-        const token = generateToken(res, userData.docs[0].id);
-        const { password, ...otherData } = user;
-        res.status(200).json({
-          message: "Logged in successful",
-          data: { id: userData.docs[0].id, token, ...otherData },
-        });
+    const user = await User.findOne({ email })
+    if (user) {
+      const isPasswordMatch = await bcrypt.compare(password, user.password)
+      if (isPasswordMatch) {
+        const userToken = generateToken(res, user._id)
+        res.status(200).json({ user, userToken })
       } else {
-        res.status(404).json({ message: "Invalid email or password" });
+        return res.status(400).json({ error: "Email or password does not match" });
       }
     } else {
-      res.status(404).json({ message: "Invalid email or password" });
+      return res.status(400).json({ error: "You are not Registered" });
     }
   } catch (error) {
     console.log(error);
