@@ -38,11 +38,11 @@ const ChatWindow = ({ messages, setMessages, id, findParticularChat, userId, mem
 
   useEffect(() => {
     const handleUserReceiveMessage = (data) => {
-      setUserReceivedMessage({...data,createdAt:new Date()});
+      setUserReceivedMessage({ ...data, createdAt: new Date() });
     };
     userSocket && userSocket.on("receive-message", handleUserReceiveMessage);
     return () => {
-        userSocket && userSocket.off("receive-message", handleUserReceiveMessage);
+      userSocket && userSocket.off("receive-message", handleUserReceiveMessage);
     };
   }, [userSocket]);
 
@@ -61,29 +61,42 @@ const ChatWindow = ({ messages, setMessages, id, findParticularChat, userId, mem
 
   useEffect(() => {
     if (chatContainerRef.current) {
-        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
     }
-}, [messages]);
+  }, [messages]);
 
   return (
-      <div className="p-4 h-full bg-green-200 flex flex-col justify-between rounded-xl" style={{ height: '90vh' }}>
-        <div style={{ height: '75vh', overflowY: 'auto' }} ref={chatContainerRef}>
-        {messages.map((message, index) => (
-          <div key={index} className={message.senderId === userInfo?._id ? 'text-end m-3' : 'text-start m-3'}>
-          <div className={message.senderId === userInfo?._id ? 'bg-red-500 inline-block text-white rounded-md p-2' : 'bg-slate-500 inline-block text-white rounded-md p-2'} style={{ maxWidth: '70%', overflowX: 'auto' }}>
-              {message.text}
-              <div className="text-right text-xs text-white">{new Date(message.createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
+    <>
+      {
+        id ? (
+          <>
+            <div className="p-4 h-full bg-green-200 flex flex-col justify-between rounded-xl" style={{ height: '90vh' }}>
+              <div style={{ height: '75vh', overflowY: 'auto' }} ref={chatContainerRef}>
+                {messages.map((message, index) => (
+                  <div key={index} className={message.senderId === userInfo?._id ? 'text-end m-3' : 'text-start m-3'}>
+                    <div className={message.senderId === userInfo?._id ? 'bg-slate-500 inline-block text-white rounded-md p-2' : 'bg-green-800 inline-block text-white rounded-md p-2'} style={{ maxWidth: '70%', overflowX: 'auto' }}>
+                      {message.text}
+                      <div className="text-right text-xs text-white">{new Date(message.createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-row items-center">
+                <InputEmoji value={text} onChange={(value) => setText(value)} />
+                <button className="bg-green-800 rounded-2xl font-bold text-white px-4 py-2 ml-2" onClick={() => addMessage(id)} >
+                  Send
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="p-4 h-full bg-green-200 flex flex-col justify-between rounded-xl items-center" style={{ height: '90vh' }}>
+            Click On a User to Chat
           </div>
-      </div>
-        ))}
-        </div>
-        <div className="flex flex-row items-center">
-          <InputEmoji value={text} onChange={(value) => setText(value)} />
-          <button className="bg-green-800 rounded-2xl font-bold text-white px-4 py-2 ml-2" onClick={() => addMessage(id)} >
-            Send
-          </button>
-        </div>
-      </div>
+        )
+      }
+    </>
+
   );
 };
 
