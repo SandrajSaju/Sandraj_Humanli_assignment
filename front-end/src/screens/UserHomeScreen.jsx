@@ -3,6 +3,7 @@ import ChatSidebar from '../components/ChatSidebar'
 import ChatWindow from '../components/ChatWindow'
 import { Link, useNavigate } from 'react-router-dom'
 import axiosInstance from '../app/axiosInstance'
+import {io} from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogout } from '../feature/userAuthSlice'
 
@@ -18,6 +19,8 @@ const UserHomeScreen = () => {
   const [users, setUsers] = useState([])
   const [otherUserId, setOtherUserId] = useState("")
   const [members, setMembers] = useState([])
+  const [socket, setSocket] = useState("");
+  const [onlineUsers, setOnlineUsers] = useState("")
 
   const findParticularChat = async (userId, otherUserId) => {
     try {
@@ -43,7 +46,6 @@ const UserHomeScreen = () => {
   const getAllChats = async () => {
     try {
       const { data } = await axiosInstance.get(`/user/getallusers`)
-      console.log(data);
       if (data) {
         setUsers(data)
       }
@@ -64,7 +66,21 @@ const UserHomeScreen = () => {
 
   useEffect(() => {
     getAllChats()
-  }, [])
+  }, [users])
+
+  useEffect(()=>{
+    const newSocket = io("http://localhost:8080");
+    newSocket.on("connect",()=>{
+      setSocket(newSocket);
+      newSocket.emit("new-user-add",userId);
+      newSocket.on('get-users',(users) => {
+        setOnlineUsers(users)
+      })
+    })
+    return ()=>{
+      newSocket.disconnect();
+    }
+  },[userId])
 
   return (
     <>
@@ -75,7 +91,7 @@ const UserHomeScreen = () => {
         </header>
         <div className="flex flex-grow">
           <ChatSidebar users={users} findParticularChat={findParticularChat} />
-          <ChatWindow messages={messages} id={id} findParticularChat={findParticularChat} userId={otherUserId} members={members} setMessages={setMessages} />
+          <ChatWindow messages={messages} id={id} findParticularChat={findParticularChat} userId={otherUserId} members={members} setMessages={setMessages} userSocket={socket} />
         </div>
       </div>
     </>

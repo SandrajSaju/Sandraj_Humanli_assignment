@@ -1,19 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
 import axiosInstance from '../app/axiosInstance';
 import { useSelector } from 'react-redux';
 
-
-const StyledListItem = styled.li`
-  padding: 0.5rem 1rem;
-  &:hover {
-    background-color: #6b7280;
-    border-radius: 0.5rem;
-  }
-  @media (max-width: 768px) {
-    font-size: 14px;
-  }
-`;
 
 const ChatSidebar = ({users, findParticularChat}) => {
 
