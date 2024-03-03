@@ -29,38 +29,58 @@ const getAllChats = async (req, res) => {
 
 const addMessage = async (req, res) => {
   try {
-      const { chatId, senderId, text } = req.body;
-      const message = new Message({
-          chatId,
-          senderId,
-          text
-      });
-      const result = await message.save();
+    const { chatId, senderId, text } = req.body;
+    const message = new Message({
+      chatId,
+      senderId,
+      text
+    });
+    const result = await message.save();
 
-      const chat = await Chat.findById(chatId);
-      chat.updatedAt = Date.now();
-      await chat.save()
-      
-      res.status(200).json(result)
+    const chat = await Chat.findById(chatId);
+    chat.updatedAt = Date.now();
+    await chat.save()
+
+    res.status(200).json(result)
   } catch (error) {
-      console.log(error.message);
-      res.status(500).json(error.message)
+    console.log(error.message);
+    res.status(500).json(error.message)
   }
 }
 
 const userGetMessage = async (req, res) => {
   try {
-      const chatId = req.params.chatId;
-      const message = await Message.find({ chatId });
-      res.status(200).json(message)
+    const chatId = req.params.chatId;
+    const message = await Message.find({ chatId });
+    res.status(200).json(message)
   } catch (error) {
-      console.log(error.message);
-      res.status(500).json(error.message)
+    console.log(error.message);
+    res.status(500).json(error.message)
+  }
+}
+
+const createChat = async (req, res) => {
+  try {
+    const user1Id = req.userId
+    const user2Id = req.params.id
+    const chat = await Chat.findOne({
+      members: { $all: [user1Id, user2Id] }
+    });
+    if (!chat) {
+      const newChat = new Chat({
+        members: [user1Id, user2Id]
+      });
+      await newChat.save();
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message });
   }
 }
 
 module.exports = {
   getAllChats,
   addMessage,
-  userGetMessage
+  userGetMessage,
+  createChat
 }
