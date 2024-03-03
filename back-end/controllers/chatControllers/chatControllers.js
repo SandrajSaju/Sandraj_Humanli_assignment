@@ -63,6 +63,7 @@ const createChat = async (req, res) => {
   try {
     const user1Id = req.userId
     const user2Id = req.params.id
+
     const chat = await Chat.findOne({
       members: { $all: [user1Id, user2Id] }
     });
@@ -72,9 +73,24 @@ const createChat = async (req, res) => {
       });
       await newChat.save();
     }
+
+    res.status(200).json(chat)
+
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ error: error.message });
+  }
+}
+
+const findChat = async (req, res) => {
+  try {
+      const chat = await Chat.findOne({
+          members: { $all: [req.params.userId, req.params.otherUserId] }
+      });
+      res.status(200).json(chat)
+  } catch (error) {
+      console.log(error.message);
+      res.status(500).json(error.message)
   }
 }
 
@@ -82,5 +98,6 @@ module.exports = {
   getAllChats,
   addMessage,
   userGetMessage,
-  createChat
+  createChat,
+  findChat
 }
