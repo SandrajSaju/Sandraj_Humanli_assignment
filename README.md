@@ -7,7 +7,9 @@ To install and run this project locally, follow these steps:
 
 for back-end running:
 1.from the root directory go to backend:
+```
    cd back-end
+```
    
 2. Install all dependencies by the command:
    npm install
@@ -20,10 +22,13 @@ for back-end running:
    npm start
    
 for running the front-end:
-1. Install all dependencies by the command:
+1. from the root directory go to frontend:
+    cd front-end
+   
+3. Install all dependencies by the command:
    npm install
 
-2. To run front-end folder,run the command
+4. To run front-end folder,run the command
    npm start
 
 All set browse through my application seamlessly.
