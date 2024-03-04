@@ -70,27 +70,27 @@ const ChatWindow = ({ messages, setMessages, id, findParticularChat, userId, mem
       {
         id ? (
           <>
-            <div className="p-4 h-full bg-green-200 flex flex-col justify-between rounded-xl" style={{ height: '83vh' }}>
+            <div className="p-4 h-full flex flex-col justify-between" style={{ height: '90vh' }}>
               <div style={{ height: '75vh', overflowY: 'auto' }} ref={chatContainerRef}>
                 {messages.map((message, index) => (
                   <div key={index} className={message.senderId === userInfo?._id ? 'text-end m-3' : 'text-start m-3'}>
-                    <div className={message.senderId === userInfo?._id ? 'bg-slate-500 inline-block text-white rounded-md px-2 py-1' : 'bg-green-700 inline-block text-white rounded-md px-2 py-1'} style={{ maxWidth: '70%', overflowX: 'auto' }}>
+                    <div className={message.senderId === userInfo?._id ? 'bg-[#18d39e] inline-block text-white rounded-md px-2 py-1' : 'bg-[#f7f7f7] inline-block text-gray-800 rounded-md px-2 py-1'} style={{ maxWidth: '70%', overflowX: 'auto' }}>
                       {message.text}
-                      <div className="text-right text-[10px] text-white">{new Date(message.createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
+                      <div className="text-right text-[10px] text-gray-800">{new Date(message.createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
                     </div>
                   </div>
                 ))}
               </div>
               <div className="flex flex-row items-center">
                 <InputEmoji value={text} onChange={(value) => setText(value)} />
-                <button className="bg-green-800 rounded-2xl font-bold text-white px-4 py-2 ml-2" onClick={() => addMessage(id)} >
+                <button className="bg-[#ffa429] rounded-sm font-bold text-white px-4 py-2 ml-2" onClick={() => addMessage(id)} >
                   Send
                 </button>
               </div>
             </div>
           </>
         ) : (
-          <div className="p-4 h-full bg-green-200 flex flex-col justify-between rounded-xl items-center" style={{ height: '90vh' }}>
+          <div className="p-4 h-full flex justify-center rounded-xl items-center text-gray-900 text-2xl font-bold" style={{ height: '90vh' }}>
             Click On a User to Chat
           </div>
         )

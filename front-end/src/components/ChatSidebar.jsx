@@ -15,13 +15,14 @@ const ChatSidebar = ({users, findParticularChat}) => {
   }
 
   return (
-    <div className="flex-none w-1/4 bg-gray-400 border-r border-gray-300 rounded-xl">
-      <div className="">
-        <h2 className="text-lg font-extrabold mb-4 px-3">{userInfo.name}</h2>
+    <div className="flex-none w-1/4 border-r border-gray-300">
+      <div className="lg:px-5">
+        {/* <h2 className="text-sm lg:text-lg font-semibold lg:font-extrabold mb-4">{userInfo.name.toUpperCase()}</h2> */}
+        <hr />
         <ul>
           {users.map(user => (
-            <li key={user._id} className={`py-2 px-2 hover:text-white hover:bg-gray-600 cursor-pointer hover:rounded-xl text-md font-bold tracking-wide ${selectedUserId === user._id ? 'bg-gray-600 text-white rounded-xl' : 'bg-gray-400'}`} onClick={()=>handleUserClick(user._id)}>
-              {user.name}
+            <li key={user._id} className={`py-2 px-2 h-14 rounded-sm flex items-center hover:text-white hover:bg-[#ffa429] cursor-pointer text-xs font-medium lg:text-md lg:font-semibold tracking-wider ${selectedUserId === user._id ? ' text-white bg-[#ffa429]' : ''}`} onClick={()=>handleUserClick(user._id)}>
+              {user.name.toUpperCase()}
             </li>
           ))}
         </ul>

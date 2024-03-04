@@ -87,7 +87,7 @@ const UserHomeScreen = () => {
       <div className="flex flex-col h-screen">
         <header className=" bg-gray-800 text-white py-4 px-6 flex justify-between items-center fixed top-0 w-full z-10">
           <h1 className="text-xl font-extrabold tracking-wider">HUMANLI . AI</h1>
-          <Link to="/logout" onClick={handleUserLogout} className="text-white hover:text-white bg-red-500 hover:bg-red-800 rounded-md px-2 py-1">Logout</Link>
+          <Link to="/logout" onClick={handleUserLogout} className="text-white hover:text-white bg-red-500 hover:bg-red-800 rounded-md px-3 py-1">Logout</Link>
         </header>
         <div className="flex flex-grow mt-16">
           <ChatSidebar users={users} findParticularChat={findParticularChat} />
