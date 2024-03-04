@@ -70,13 +70,13 @@ const ChatWindow = ({ messages, setMessages, id, findParticularChat, userId, mem
       {
         id ? (
           <>
-            <div className="p-4 h-full bg-green-200 flex flex-col justify-between rounded-xl" style={{ height: '90vh' }}>
+            <div className="p-4 h-full bg-green-200 flex flex-col justify-between rounded-xl" style={{ height: '83vh' }}>
               <div style={{ height: '75vh', overflowY: 'auto' }} ref={chatContainerRef}>
                 {messages.map((message, index) => (
                   <div key={index} className={message.senderId === userInfo?._id ? 'text-end m-3' : 'text-start m-3'}>
-                    <div className={message.senderId === userInfo?._id ? 'bg-slate-500 inline-block text-white rounded-md p-2' : 'bg-green-800 inline-block text-white rounded-md p-2'} style={{ maxWidth: '70%', overflowX: 'auto' }}>
+                    <div className={message.senderId === userInfo?._id ? 'bg-slate-500 inline-block text-white rounded-md px-2 py-1' : 'bg-green-700 inline-block text-white rounded-md px-2 py-1'} style={{ maxWidth: '70%', overflowX: 'auto' }}>
                       {message.text}
-                      <div className="text-right text-xs text-white">{new Date(message.createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
+                      <div className="text-right text-[10px] text-white">{new Date(message.createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
                     </div>
                   </div>
                 ))}
