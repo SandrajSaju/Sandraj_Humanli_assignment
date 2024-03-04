@@ -9,26 +9,30 @@ for back-end running:
 1.from the root directory go to backend:
 ```
    cd back-end
-```
    
 2. Install all dependencies by the command:
+   ```
    npm install
 
-3. To include the environment variables:
+4. To include the environment variables:
    create .env file inside backend folder
    put all the environment variables in .env file (copy from the mail)
    
-4. to run back-end folder,run the command:
+5. to run back-end folder,run the command:
+   ```
    npm start
    
 for running the front-end:
 1. from the root directory go to frontend:
+   ```
     cd front-end
    
 3. Install all dependencies by the command:
+   ```
    npm install
 
-4. To run front-end folder,run the command
+5. To run front-end folder,run the command:
+   ```
    npm start
 
 All set browse through my application seamlessly.
